@@ -2,8 +2,8 @@ import Link from 'next/link';
 
 const NavBar = () => {
   return (
-    <nav className='flex justify-between'>
-        <div className="o">LOGO</div>
+    <nav className='flex px-3 justify-between'>
+        <div className="font-bold italic">iFitness</div>
         <ul className="flex">
             <Link href={`/`}>Home</Link>
             <Link href={`/about`}>About</Link>
