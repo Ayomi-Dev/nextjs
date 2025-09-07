@@ -8,23 +8,30 @@ const prisma = new PrismaClient()
 export async function POST(req: NextRequest) {
     try{
         const body = await req.json();
-        const {name, email, password} = body;
-
+        const {name, email, password, confirmPassword} = body;
+        
         if(!name || !email || !password){
             return NextResponse.json({message: "name, email, and password required"}, { status: 400});
         }
 
-
         const userExist = await prisma.user.findUnique({ 
-            where: { email}
+            where: { email }
         });
-         
+
         if(userExist){
-            NextResponse.json(
+           return  NextResponse.json(
                 { error: "User with email already exxist"},
                 {status: 400}
             );
+           
         }
+
+        if(password !== confirmPassword){
+            return NextResponse.json({ error: "Passwords do not match"}, {status: 400})
+        }
+ 
+
+         
 
 
         const hashedPassword = await bcrypt.hash(password, 10);
